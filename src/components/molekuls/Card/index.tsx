@@ -68,32 +68,23 @@ const Card = ({
           )}
         </Flex>
       </StyledDiv>
-      {showMenu && (
-        <Popup>
-          <Flex justifyContent="end">
-            <Icon
-              name="close"
-              color="orange"
-              onClick={() => setShoMenu(false)}
-            />
-          </Flex>
-          <Flex justifyContent="center">
-            <Image src={imageFrond} alt={title} width="300px" />
-          </Flex>
-          <p>
-            <h3>Description:</h3>
-            {categoriesDes[0].description}
-          </p>
-          <h3>Options</h3>
-          <Flex>
-            {categoriesDes[0].size.map((item: any, index: any) => (
-              <Div key={index} marginLeft="5px">
-                <span>{item}</span>
-              </Div>
-            ))}
-          </Flex>
-        </Popup>
-      )}
+      <Popup showPopup={showMenu} closePopup={() => setShoMenu(false)}>
+        <Flex justifyContent="center">
+          <Image src={imageFrond} alt={title} width="300px" />
+        </Flex>
+        <p>
+          <h3>Description:</h3>
+          {categoriesDes[0]?.description}
+        </p>
+        <h3>Options</h3>
+        <Flex>
+          {categoriesDes[0]?.size.map((item: any, index: any) => (
+            <Div key={index} marginLeft="5px">
+              <span>{item}</span>
+            </Div>
+          ))}
+        </Flex>
+      </Popup>
     </>
   );
 };
