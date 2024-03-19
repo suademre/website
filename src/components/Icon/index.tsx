@@ -8,6 +8,9 @@ import Liked from "./icons/liked";
 import Like from "./icons/like";
 import Buy from "./icons/buy";
 import Buyed from "./icons/buyed";
+import Delete from "./icons/delete";
+import Increase from "./icons/increase";
+import Decrease from "./icons/decrease";
 
 export const icons = {
   menu: Menu,
@@ -16,6 +19,9 @@ export const icons = {
   liked: Liked,
   buy: Buy,
   buyed: Buyed,
+  delete: Delete,
+  increase: Increase,
+  decrease: Decrease,
 };
 
 export interface IIcon {
