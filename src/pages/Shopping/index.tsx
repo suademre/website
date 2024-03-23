@@ -1,12 +1,13 @@
-import { Container, Wrapper } from "./styles";
+import { CardContainer } from "./styles";
 import { useShoppingContext } from "../../context/ShoppingContext";
 import useShopping from "../../hooks/useShopping";
 import Card from "../../components/molekuls/Card";
 import { useFavoritesContext } from "../../context/FavoritesContext";
 import useFavorites from "../../hooks/useFavorites";
-import Image from "../../components/Image";
-import Flex from "../../components/Flex";
-import Icon from "../../components/Icon";
+import Container from "../../components/Grid/Container";
+import Column from "../../components/Grid/Column";
+import ListCard from "../../components/molekuls/ListCard";
+import { useState } from "react";
 
 const Shopping = () => {
   const { shopping } = useShoppingContext();
@@ -14,10 +15,33 @@ const Shopping = () => {
   const { favorite } = useFavoritesContext();
   const { handleFavorites } = useFavorites();
 
-  const totalPrice = shopping.reduce((total, item) => total + item.price, 0);
+  const [quantity, setQuantity] = useState(1);
+
+  //TODO: bug: When I change quantity, the quantity of all products changes
+  const totalPrice = shopping.reduce(
+    (total, item) => total + item.price * quantity,
+    0
+  );
+
+  // const increaseQuantity = () => {
+  //   setQuantity(quantity + 1);
+  // };
+  // const decreaseQuantity = () => {
+  //   setQuantity(quantity - 1);
+  // };
+
+  const quantityRechner = (value: string) => {
+    if (value === "increase") {
+      setQuantity(quantity + 1);
+    }
+    if (value === "decrease") {
+      setQuantity(quantity - 1);
+    }
+  };
+
   return (
     <>
-      <Container>
+      <CardContainer>
         {shopping.length === 0 && <p>Es gibt keine Produkte </p>}
         {shopping.map((product, index) => (
           <Card
@@ -32,22 +56,23 @@ const Shopping = () => {
             isInFavoritesList={favorite.some((item) => item.id === product.id)}
           />
         ))}
+      </CardContainer>
+      <Container>
+        <Column cols={{ xl: 8 }}>
+          {shopping.map((product, index) => (
+            <ListCard
+              key={index}
+              imageFrond={product.imageFrond}
+              title={product.title}
+              price={product.price}
+              quantity={quantity}
+              // setQuantity={setQuantity}
+              quantityRechner={quantityRechner}
+            />
+          ))}
+        </Column>
+        <p>{totalPrice}</p>
       </Container>
-      <div>
-        {shopping.map((product, index) => (
-          <Wrapper key={index}>
-            <Image src={product.imageFrond} alt={product.title} width="100px" />
-            <Flex flexDirection="column" alignItems="center" marginLeft="10px">
-              <h3>Title</h3>
-              <div>{product.title}</div>
-            </Flex>
-            <div>
-              <Icon name="increase" />
-              <Icon name="decrease" />
-            </div>
-          </Wrapper>
-        ))}
-      </div>
     </>
   );
 };
