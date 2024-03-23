@@ -3,6 +3,7 @@ export interface IImage {
   alt: string;
   width?: string;
   height?: string;
+  radius?: string;
   className?: React.ReactNode;
   onClick?: () => void;
 }
